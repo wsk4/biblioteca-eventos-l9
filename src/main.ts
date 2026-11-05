@@ -3,6 +3,10 @@ import { AppModule } from './app.module.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Para que Nest llame a onModuleDestroy (cerrar el consumidor de Kafka) con SIGTERM.
+  app.enableShutdownHooks();
+
   const puerto = Number(process.env.PUERTO ?? 3010);
   await app.listen(puerto);
   console.log(`biblioteca-eventos escuchando en http://localhost:${puerto}`);
